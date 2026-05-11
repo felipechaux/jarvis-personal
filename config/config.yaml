@@ -1,0 +1,88 @@
+# Jarvis Personal Assistant Configuration
+
+# ── LLM Settings ──────────────────────────────────────
+llm:
+  # Provider priority: tries in order (cloud first, then local)
+  provider_priority:
+    - openrouter      # Default: OpenRouter (cloud)
+    - nvidia          # Alternative: NVIDIA
+    - ollama          # Fallback: Local models
+
+  # Default model per provider
+  models:
+    openrouter: "openrouter/anthropic/claude-sonnet-4-6"
+    nvidia: "nvidia/nemotron-4-340b-instruct"
+    ollama: "llama2"  # Or any model you have installed
+
+  # Generation settings
+  temperature: 0.7
+  max_tokens: 2048
+  timeout: 60
+
+# ── Voice Settings ────────────────────────────────────
+voice:
+  # Speech-to-Text (STT)
+  stt:
+    engine: "faster-whisper"
+    model: "base"  # tiny, base, small, medium, large
+    language: "en"
+
+  # Text-to-Speech (TTS)
+  tts:
+    engine: "edge-tts"
+    voice: "en-GB-RyanNeural"  # JARVIS voice!
+    rate: 1.0
+
+  # Voice activation
+  hotkey: "cmd+space"          # Listen with this hotkey
+  auto_listen: false           # Auto-listen on startup
+
+# ── Vision Settings ──────────────────────────────────
+vision:
+  # Screenshot capture
+  capture_interval: 30         # seconds
+  resolution: "1920x1080"
+  enabled: true
+
+  # Vision model (for screen understanding)
+  model: "claude-4.6"          # Claude with vision
+  max_screenshot_tokens: 1024
+
+# ── Safety Settings ──────────────────────────────────
+safety:
+  # What actions are allowed
+  enabled_actions:
+    - "click"
+    - "type"
+    - "screenshot"
+    - "open_app"
+    - "read_file"
+    - "web_search"
+
+  # Require confirmation for
+  require_confirmation:
+    - "shell_command"
+    - "delete_file"
+    - "install_app"
+
+  # Logging
+  log_all_actions: true
+  log_file: "~/.jarvis/actions.log"
+
+# ── Server Settings ──────────────────────────────────
+server:
+  host: "127.0.0.1"
+  port: 8000
+  debug: false
+
+# ── API Keys (read from environment) ──────────────────
+# Set these in ~/.zshrc or via export:
+# export OPENROUTER_API_KEY="..."
+# export NVIDIA_API_KEY="..."
+# export ANTHROPIC_API_KEY="..."
+
+# ── Storage ──────────────────────────────────────────
+storage:
+  db_path: "~/.jarvis/jarvis.db"
+  conversation_history: true
+  max_history: 100

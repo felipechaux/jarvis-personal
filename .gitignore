@@ -1,0 +1,48 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+venv/
+env/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs
+*.log
+/tmp/
+
+# OS
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# Node (if using)
+node_modules/
+.npm
+
+# Misc
+.env.example

@@ -1,0 +1,405 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+/* Begin PBXBuildFile section */
+		4C1A2B3C4D5E6F7G8H9C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9J /* AVFoundation.framework */; };
+		4C1A2B3C4D5E6F7G8H9K /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9L /* AppKit.framework */; };
+		4C1A2B3C4D5E6F7G8H9M /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9N /* Combine.framework */; };
+		4C1A2B3C4D5E6F7G8H9O /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9P /* Foundation.framework */; };
+		4C1A2B3C4D5E6F7G8H9Q /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9R /* Speech.framework */; };
+		4C1A2B3C4D5E6F7G8H9S /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9T /* SwiftUI.framework */; };
+		4C1A2B3C4D5E6F7G8H9U /* JarvisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9V /* JarvisApp.swift */; };
+		4C1A2B3C4D5E6F7G8H9W /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9X /* MainView.swift */; };
+		4C1A2B3C4D5E6F7G8H9Y /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9Z /* ChatManager.swift */; };
+		4C1A2B3C4D5E6F7G8H9a /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9b /* VoiceManager.swift */; };
+		4C1A2B3C4D5E6F7G8H9c /* ScreenCaptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1A2B3C4D5E6F7G8H9d /* ScreenCaptureManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4C1A2B3C4D5E6F7G8H9J /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		4C1A2B3C4D5E6F7G8H9L /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4C1A2B3C4D5E6F7G8H9N /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
+		4C1A2B3C4D5E6F7G8H9P /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4C1A2B3C4D5E6F7G8H9R /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
+		4C1A2B3C4D5E6F7G8H9T /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		4C1A2B3C4D5E6F7G8H9e /* Jarvis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jarvis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C1A2B3C4D5E6F7G8H9V /* JarvisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jarvis/JarvisApp.swift; sourceTree = SOURCE_ROOT; };
+		4C1A2B3C4D5E6F7G8H9X /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jarvis/Views/MainView.swift; sourceTree = SOURCE_ROOT; };
+		4C1A2B3C4D5E6F7G8H9Z /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jarvis/Managers/ChatManager.swift; sourceTree = SOURCE_ROOT; };
+		4C1A2B3C4D5E6F7G8H9b /* VoiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jarvis/Managers/VoiceManager.swift; sourceTree = SOURCE_ROOT; };
+		4C1A2B3C4D5E6F7G8H9d /* ScreenCaptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jarvis/Managers/ScreenCaptureManager.swift; sourceTree = SOURCE_ROOT; };
+		4C1A2B3C4D5E6F7G8H9f /* Jarvis.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Jarvis/Jarvis.entitlements; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4C1A2B3C4D5E6F7G8H9g /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1A2B3C4D5E6F7G8H9C /* AVFoundation.framework in Frameworks */,
+				4C1A2B3C4D5E6F7G8H9K /* AppKit.framework in Frameworks */,
+				4C1A2B3C4D5E6F7G8H9M /* Combine.framework in Frameworks */,
+				4C1A2B3C4D5E6F7G8H9O /* Foundation.framework in Frameworks */,
+				4C1A2B3C4D5E6F7G8H9Q /* Speech.framework in Frameworks */,
+				4C1A2B3C4D5E6F7G8H9S /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4C1A2B3C4D5E6F7G8H9h /* Jarvis */ = {
+			isa = PBXGroup;
+			children = (
+				4C1A2B3C4D5E6F7G8H9V /* JarvisApp.swift */,
+				4C1A2B3C4D5E6F7G8H9i /* Managers */,
+				4C1A2B3C4D5E6F7G8H9j /* Views */,
+				4C1A2B3C4D5E6F7G8H9f /* Jarvis.entitlements */,
+			);
+			path = Jarvis;
+			sourceTree = SOURCE_ROOT;
+		};
+		4C1A2B3C4D5E6F7G8H9i /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				4C1A2B3C4D5E6F7G8H9Z /* ChatManager.swift */,
+				4C1A2B3C4D5E6F7G8H9b /* VoiceManager.swift */,
+				4C1A2B3C4D5E6F7G8H9d /* ScreenCaptureManager.swift */,
+			);
+			path = Managers;
+			sourceTree = SOURCE_ROOT;
+		};
+		4C1A2B3C4D5E6F7G8H9j /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4C1A2B3C4D5E6F7G8H9X /* MainView.swift */,
+			);
+			path = Views;
+			sourceTree = SOURCE_ROOT;
+		};
+		4C1A2B3C4D5E6F7G8H9k /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C1A2B3C4D5E6F7G8H9J /* AVFoundation.framework */,
+				4C1A2B3C4D5E6F7G8H9L /* AppKit.framework */,
+				4C1A2B3C4D5E6F7G8H9N /* Combine.framework */,
+				4C1A2B3C4D5E6F7G8H9P /* Foundation.framework */,
+				4C1A2B3C4D5E6F7G8H9R /* Speech.framework */,
+				4C1A2B3C4D5E6F7G8H9T /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4C1A2B3C4D5E6F7G8H9l /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4C1A2B3C4D5E6F7G8H9e /* Jarvis.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4C1A2B3C4D5E6F7G8H9m = {
+			isa = PBXGroup;
+			children = (
+				4C1A2B3C4D5E6F7G8H9h /* Jarvis */,
+				4C1A2B3C4D5E6F7G8H9k /* Frameworks */,
+				4C1A2B3C4D5E6F7G8H9l /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4C1A2B3C4D5E6F7G8H9n /* Jarvis */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C1A2B3C4D5E6F7G8H9o /* Build configuration list for PBXNativeTarget "Jarvis" */;
+			buildPhases = (
+				4C1A2B3C4D5E6F7G8H9p /* Sources */,
+				4C1A2B3C4D5E6F7G8H9g /* Frameworks */,
+				4C1A2B3C4D5E6F7G8H9q /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Jarvis;
+			productName = Jarvis;
+			productReference = 4C1A2B3C4D5E6F7G8H9e /* Jarvis.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4C1A2B3C4D5E6F7G8H9r /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					4C1A2B3C4D5E6F7G8H9n = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 4C1A2B3C4D5E6F7G8H9s /* Build configuration list for PBXProject "Jarvis" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4C1A2B3C4D5E6F7G8H9m;
+			productRefGroup = 4C1A2B3C4D5E6F7G8H9l /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4C1A2B3C4D5E6F7G8H9n /* Jarvis */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4C1A2B3C4D5E6F7G8H9q /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C1A2B3C4D5E6F7G8H9p /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C1A2B3C4D5E6F7G8H9U /* JarvisApp.swift in Sources */,
+				4C1A2B3C4D5E6F7G8H9W /* MainView.swift in Sources */,
+				4C1A2B3C4D5E6F7G8H9Y /* ChatManager.swift in Sources */,
+				4C1A2B3C4D5E6F7G8H9a /* VoiceManager.swift in Sources */,
+				4C1A2B3C4D5E6F7G8H9c /* ScreenCaptureManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4C1A2B3C4D5E6F7G8H9t /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_DIALECT = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_DIALECT = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4C1A2B3C4D5E6F7G8H9u /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_DIALECT = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_DIALECT = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZE_FOR_SIZE = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		4C1A2B3C4D5E6F7G8H9v /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGNING_REQUIRED = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Felipe Chaux. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Jarvis needs microphone access for voice input";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Jarvis needs speech recognition to convert your voice to text";
+				INFOPLIST_KEY_NSScreenCaptureUsageDescription = "Jarvis needs to capture your screen to understand context";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipechaux.jarvis;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		4C1A2B3C4D5E6F7G8H9w /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGNING_REQUIRED = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 Felipe Chaux. All rights reserved.";
+				INFOPLIST_KEY_NSMainStoryboardFile = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Jarvis needs microphone access for voice input";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Jarvis needs speech recognition to convert your voice to text";
+				INFOPLIST_KEY_NSScreenCaptureUsageDescription = "Jarvis needs to capture your screen to understand context";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.felipechaux.jarvis;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4C1A2B3C4D5E6F7G8H9s /* Build configuration list for PBXProject "Jarvis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1A2B3C4D5E6F7G8H9t /* Debug */,
+				4C1A2B3C4D5E6F7G8H9u /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C1A2B3C4D5E6F7G8H9o /* Build configuration list for PBXNativeTarget "Jarvis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C1A2B3C4D5E6F7G8H9v /* Debug */,
+				4C1A2B3C4D5E6F7G8H9w /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4C1A2B3C4D5E6F7G8H9r /* Project object */;
+}
