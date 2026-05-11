@@ -31,7 +31,7 @@ class OllamaProvider(LLMProvider):
             async with httpx.AsyncClient() as client:
                 resp = await client.get(f"{self.host}/api/tags", timeout=5)
                 data = resp.json()
-                return [m["name"] for m in data.get("models", [])]
+                return [f"ollama/{m['name']}" for m in data.get("models", [])]
         except Exception:
             return []
 
@@ -44,8 +44,11 @@ class OllamaProvider(LLMProvider):
     ) -> LLMResponse:
         """Send message to Ollama."""
         async with httpx.AsyncClient() as client:
+            # Remove "ollama/" prefix if present
+            model_name = model.replace("ollama/", "")
+
             payload = {
-                "model": model,
+                "model": model_name,
                 "messages": [{"role": m.role, "content": m.content} for m in messages],
                 "stream": False,
                 "options": {
@@ -75,8 +78,11 @@ class OllamaProvider(LLMProvider):
     ) -> AsyncIterator[str]:
         """Stream response from Ollama."""
         async with httpx.AsyncClient() as client:
+            # Remove "ollama/" prefix if present
+            model_name = model.replace("ollama/", "")
+
             payload = {
-                "model": model,
+                "model": model_name,
                 "messages": [{"role": m.role, "content": m.content} for m in messages],
                 "stream": True,
                 "options": {

@@ -13,6 +13,7 @@ class ChatManager: ObservableObject {
 
     private let backendURL = URL(string: "http://127.0.0.1:8000")!
     private weak var voiceManager: VoiceManager?
+    private weak var screenManager: ScreenCaptureManager?
 
     func observeWakeWord() {
         // Listen for wake word detection and send a default query
@@ -38,8 +39,9 @@ class ChatManager: ObservableObject {
             "nvidia": ["nvidia/nemotron-4-340b-instruct"],
             "ollama": []
         ]
-        self.selectedProvider = "gemini"
-        self.selectedModel = "gemini/gemini-2.5-flash"
+        // Default to NVIDIA Llama 3.3 70B Instruct (best available)
+        self.selectedProvider = "nvidia"
+        self.selectedModel = "nvidia/meta/llama-3.3-70b-instruct"
         Task {
             await loadModels()
         }
@@ -47,6 +49,10 @@ class ChatManager: ObservableObject {
 
     func setVoiceManager(_ manager: VoiceManager) {
         self.voiceManager = manager
+    }
+
+    func setScreenManager(_ manager: ScreenCaptureManager) {
+        self.screenManager = manager
     }
 
     func loadModels() async {
@@ -70,6 +76,12 @@ class ChatManager: ObservableObject {
 
     func sendMessage(_ text: String) {
         guard !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+
+        // Add screen context to the message
+        var enhancedText = text
+        if let screenContext = screenManager?.getScreenContext(), !screenContext.isEmpty {
+            enhancedText = "[\(screenContext)]\n\(text)"
+        }
 
         messages.append(ChatMessage(role: "user", content: text))
         isLoading = true

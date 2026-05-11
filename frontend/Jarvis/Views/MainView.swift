@@ -12,7 +12,9 @@ enum AgentState: String {
 extension Color {
     static let bgCream = Color(red: 0.85, green: 0.79, blue: 0.68)
     static let bgBeige = Color(red: 0.81, green: 0.75, blue: 0.65)
-    static let coralPrimary = Color(red: 0.78, green: 0.35, blue: 0.26)
+    static let coralPrimary = Color(red: 0.847, green: 0.353, blue: 0.188)
+    static let coralLight = Color(red: 0.941, green: 0.600, blue: 0.482)
+    static let coralDark = Color(red: 0.600, green: 0.235, blue: 0.114)
     static let textOnCream = Color(red: 0.22, green: 0.16, blue: 0.12)
     static let textSecondary = Color(red: 0.28, green: 0.22, blue: 0.17)
     static let accentWarm = Color(red: 0.85, green: 0.47, blue: 0.30)
@@ -26,6 +28,8 @@ struct MainView: View {
     @State private var userInput: String = ""
     @State private var agentState: AgentState = .idle
     @State private var orbVolume: Double = 0.0
+    @State private var modelSearchQuery: String = ""
+    @State private var showModelSearch: Bool = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -74,6 +78,7 @@ struct MainView: View {
         }
         .onAppear {
             chatManager.setVoiceManager(voiceManager)
+            chatManager.setScreenManager(screenManager)
             chatManager.observeWakeWord()
             screenManager.startCapturing()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -101,28 +106,124 @@ struct MainView: View {
             }
             .padding(.top, 24)
 
-            // Model Selection
-            VStack(alignment: .leading, spacing: 12) {
+            // Model Selection with Search
+            VStack(alignment: .leading, spacing: 10) {
                 Text("Model")
                     .font(.system(size: 12, weight: .semibold))
                     .tracking(0.5)
                     .foregroundColor(.white.opacity(0.7))
 
-                Picker("", selection: $chatManager.selectedModel) {
-                    ForEach(["gemini", "openrouter", "nvidia", "ollama"], id: \.self) { provider in
-                        if let models = chatManager.availableModels[provider], !models.isEmpty {
-                            Section(provider.uppercased()) {
-                                ForEach(models, id: \.self) { model in
-                                    Text(model.split(separator: "/").last.map(String.init) ?? model)
-                                        .font(.system(size: 12, weight: .regular))
-                                        .tag(model)
-                                }
+                VStack(alignment: .leading, spacing: 8) {
+                    // Selected model display
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Selected")
+                            .font(.system(size: 9, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.5))
+                            .tracking(0.5)
+
+                        HStack(spacing: 8) {
+                            Circle()
+                                .fill(getProviderColor(chatManager.selectedModel))
+                                .frame(width: 5, height: 5)
+
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(chatManager.selectedModel.split(separator: "/").last.map(String.init) ?? chatManager.selectedModel)
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .lineLimit(1)
+                                    .foregroundColor(.white)
+
+                                Text(chatManager.selectedModel.split(separator: "/").first.map(String.init) ?? "")
+                                    .font(.system(size: 10, weight: .regular))
+                                    .foregroundColor(.white.opacity(0.6))
                             }
                         }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.white.opacity(0.12))
+                        .cornerRadius(6)
                     }
+
+                    // Search field
+                    HStack(spacing: 8) {
+                        Image(systemName: "magnifyingglass")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.5))
+
+                        TextField("Search models...", text: $modelSearchQuery)
+                            .textFieldStyle(.plain)
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(.white)
+
+                        if !modelSearchQuery.isEmpty {
+                            Button(action: { modelSearchQuery = "" }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(.white.opacity(0.5))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 8)
+                    .background(Color.white.opacity(0.08))
+                    .cornerRadius(6)
+
+                    // Filtered models list
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(filteredModels(), id: \.self) { model in
+                                Button(action: {
+                                    chatManager.selectedModel = model
+                                    modelSearchQuery = ""
+                                    showModelSearch = false
+                                }) {
+                                    HStack(spacing: 8) {
+                                        Circle()
+                                            .fill(getProviderColor(model))
+                                            .frame(width: 4, height: 4)
+
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(model.split(separator: "/").last.map(String.init) ?? model)
+                                                .font(.system(size: 11, weight: .medium))
+                                                .lineLimit(1)
+
+                                            Text(model.split(separator: "/").first.map(String.init) ?? "")
+                                                .font(.system(size: 9, weight: .regular))
+                                                .foregroundColor(.white.opacity(0.5))
+                                        }
+
+                                        Spacer()
+
+                                        if chatManager.selectedModel == model {
+                                            Image(systemName: "checkmark")
+                                                .font(.system(size: 10, weight: .semibold))
+                                                .foregroundColor(.white)
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 8)
+                                    .background(chatManager.selectedModel == model ? Color.white.opacity(0.15) : Color.clear)
+                                    .cornerRadius(6)
+                                }
+                                .buttonStyle(.plain)
+                            }
+
+                            if filteredModels().isEmpty {
+                                Text("No models found")
+                                    .font(.system(size: 11, weight: .regular))
+                                    .foregroundColor(.white.opacity(0.5))
+                                    .padding(.vertical, 12)
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
+                    .frame(maxHeight: 180)
                 }
-                .font(.system(size: 12, weight: .regular))
-                .accentColor(.white.opacity(0.8))
+                .padding(10)
+                .background(Color.black.opacity(0.2))
+                .cornerRadius(6)
             }
             .padding(12)
             .background(Color.black.opacity(0.15))
@@ -217,6 +318,41 @@ struct MainView: View {
             agentState = .idle
         }
     }
+
+    private func filteredModels() -> [String] {
+        let allModels = chatManager.availableModels.values.flatMap { $0 }
+
+        if modelSearchQuery.isEmpty {
+            return allModels
+        }
+
+        let query = modelSearchQuery.lowercased()
+        return allModels.filter { model in
+            let modelName = model.lowercased()
+            let provider = model.split(separator: "/").first.map(String.init)?.lowercased() ?? ""
+            let displayName = model.split(separator: "/").last.map(String.init)?.lowercased() ?? ""
+
+            return modelName.contains(query) ||
+                   provider.contains(query) ||
+                   displayName.contains(query)
+        }
+    }
+
+    private func getProviderColor(_ model: String) -> Color {
+        let provider = model.split(separator: "/").first.map(String.init) ?? ""
+        switch provider.lowercased() {
+        case "gemini":
+            return Color(red: 0.847, green: 0.353, blue: 0.188)
+        case "openrouter":
+            return Color(red: 0.4, green: 0.8, blue: 0.4)
+        case "nvidia":
+            return Color(red: 0.76, green: 0.80, blue: 0.24)
+        case "ollama":
+            return Color(red: 0.34, green: 0.34, blue: 0.34)
+        default:
+            return Color.white
+        }
+    }
 }
 
 #Preview {
@@ -265,54 +401,40 @@ struct MessageBubble: View {
     }
 }
 
-// MARK: - SamanthaOrb Components
+// MARK: - Waveform Bar
 
-struct SamanthaOrb: View {
-    @Binding var state: AgentState
-    @Binding var volume: Double
+struct WaveformBar: View {
+    let index: Int
+    let state: AgentState
+    let volume: Double
 
-    @State private var glowOpacity: Double = 0.0
+    @State private var height: CGFloat = 4
+
+    var timer = Timer.publish(every: 0.04, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        ZStack {
-            // Background
-            Color.bgCream.ignoresSafeArea()
-
-            // Ambient glow
-            RadialGradient(
-                gradient: Gradient(colors: [
-                    Color.coralPrimary.opacity(state == .talking ? 0.10 : 0.04),
-                    Color.clear
-                ]),
-                center: .center,
-                startRadius: 60,
-                endRadius: 260
-            )
-            .animation(.easeInOut(duration: 0.8), value: state)
-
-            VStack(spacing: 0) {
-                // Wordmark
-                Text("Jarvis")
-                    .font(.system(size: 12, weight: .light))
-                    .kerning(2)
-                    .foregroundColor(Color.textSecondary.opacity(0.55))
-                    .padding(.bottom, 20)
-
-                // Orb + rings
-                ZStack {
-                    // Arc rings
-                    ArcRing(radius: 80, dashLen: 0.18, speed: 0.06, color: Color.coralPrimary.opacity(0.22), lineWidth: 1.2, state: state)
-                    ArcRing(radius: 80, dashLen: 0.10, speed: -0.04, color: Color.coralPrimary.opacity(0.14), lineWidth: 1.0, state: state)
-
-                    // Canvas orb
-                    OrbCanvas(state: state, volume: volume)
-                        .frame(width: 140, height: 140)
-                }
-                .frame(width: 200, height: 200)
+        RoundedRectangle(cornerRadius: 2)
+            .fill(Color.coralPrimary.opacity(state == .listening ? 0.55 : 1.0))
+            .frame(width: 2.5, height: height)
+            .animation(.easeInOut(duration: 0.04), value: height)
+            .onReceive(timer) { _ in
+                updateHeight()
             }
+    }
+
+    private func updateHeight() {
+        guard state == .listening || state == .talking else {
+            height = 4; return
         }
+        let maxH: Double = state == .talking ? 28 : 14
+        let v = max(volume, 0.25)
+        let phase = Double(index) * 0.45 + Date().timeIntervalSinceReferenceDate * 4.5
+        let raw = 4 + abs(sin(phase)) * maxH * v + Double.random(in: 0...3) * v
+        height = CGFloat(raw)
     }
 }
+
+// MARK: - Rotating Arc Ring
 
 struct ArcRing: View {
     let radius: CGFloat
@@ -324,7 +446,8 @@ struct ArcRing: View {
 
     @State private var rotation: Double = 0
 
-    private var effectiveSpeed: Double {
+    var timer = Timer.publish(every: 1/60, on: .main, in: .common).autoconnect()
+    var effectiveSpeed: Double {
         state == .thinking ? speed * 2.2 : speed
     }
 
@@ -334,11 +457,13 @@ struct ArcRing: View {
             .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
             .frame(width: radius * 2, height: radius * 2)
             .rotationEffect(.degrees(rotation))
-            .onReceive(Timer.publish(every: 1/60, on: .main, in: .common).autoconnect()) { _ in
+            .onReceive(timer) { _ in
                 rotation += effectiveSpeed * 360 / 60
             }
     }
 }
+
+// MARK: - Liquid Orb Canvas (NSView-backed for CADisplayLink)
 
 final class OrbView: NSView {
     var state: AgentState = .idle { didSet { setNeedsDisplay(bounds) } }
@@ -362,51 +487,155 @@ final class OrbView: NSView {
         guard let dl = displayLink else { return }
         CVDisplayLinkSetOutputCallback(dl, { _, _, _, _, _, userInfo in
             let view = Unmanaged<OrbView>.fromOpaque(userInfo!).takeUnretainedValue()
-            DispatchQueue.main.async { view.setNeedsDisplay(view.bounds) }
+            DispatchQueue.main.async { view.tick() }
             return kCVReturnSuccess
         }, Unmanaged.passUnretained(self).toOpaque())
         CVDisplayLinkStart(dl)
     }
 
-    override func draw(_ rect: NSRect) {
-        super.draw(rect)
-        t += 0.016
-
-        let w = rect.width, h = rect.height
-        let centerX = w / 2, centerY = h / 2
-        let baseR: CGFloat = min(w, h) * 0.15
-
-        let path = NSBezierPath()
-        let points = makeBlobPoints(center: CGPoint(x: centerX, y: centerY), baseR: baseR)
-
-        guard points.count > 0 else { return }
-
-        path.move(to: points[0])
-        for i in 1..<points.count {
-            let p1 = points[i - 1]
-            let p2 = points[i]
-            let cp = CGPoint(x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2)
-            path.curve(to: p2, controlPoint1: CGPoint(x: (p1.x + cp.x) / 2, y: (p1.y + cp.y) / 2), controlPoint2: CGPoint(x: (cp.x + p2.x) / 2, y: (cp.y + p2.y) / 2))
-        }
-        path.close()
-
-        NSColor(red: 0.78, green: 0.35, blue: 0.26, alpha: 0.9).setFill()
-        path.fill()
+    deinit {
+        if let dl = displayLink { CVDisplayLinkStop(dl) }
     }
 
-    private func makeBlobPoints(center: CGPoint, baseR: CGFloat) -> [CGPoint] {
-        let numPts = 8
-        return (0..<numPts).map { i in
-            let angle = Double(i) * 2 * .pi / Double(numPts)
-            let wobble = 0.03 + 0.05 * sin(t * 2.5 + Double(i)) + 0.04 * volume
-            let r = baseR * (1 + wobble)
+    private func tick() {
+        t += 1
+        setNeedsDisplay(bounds)
+    }
+
+    override func draw(_ dirtyRect: NSRect) {
+        guard let ctx = NSGraphicsContext.current?.cgContext else { return }
+        let w = bounds.width, h = bounds.height
+        let cx = w / 2, cy = h / 2
+        let baseR = min(w, h) * 0.30
+
+        let pulse: Double
+        switch state {
+        case .idle:      pulse = 1 + sin(t * 0.018) * 0.012
+        case .listening: pulse = 1 + sin(t * 0.04) * 0.025 + volume * 0.06
+        case .thinking:  pulse = 1 + sin(t * 0.025) * 0.018
+        case .talking:   pulse = 1 + sin(t * 0.055) * 0.04 + volume * 0.09
+        }
+        let r = baseR * pulse
+
+        let glowAlpha = state == .idle ? 0.06 : 0.12 + volume * 0.08
+        for i in stride(from: 3, through: 1, by: -1) {
+            let gr = r + Double(i) * 18 + volume * 12
+            drawRadialGlow(ctx: ctx, cx: cx, cy: cy, r: r, outerR: gr, alpha: glowAlpha * Double(4 - i) * 0.28)
+        }
+
+        let blobPts = makeBlobPoints(cx: cx, cy: cy, r: r, n: 80)
+        let path = CGMutablePath()
+        path.move(to: blobPts[0])
+        for i in 1..<blobPts.count {
+            let prev = blobPts[i - 1]
+            let curr = blobPts[i]
+            let mid = CGPoint(x: (prev.x + curr.x) / 2, y: (prev.y + curr.y) / 2)
+            path.addQuadCurve(to: mid, control: prev)
+        }
+        path.closeSubpath()
+
+        ctx.saveGState()
+        ctx.addPath(path)
+        ctx.clip()
+        drawOrbGradient(ctx: ctx, cx: cx, cy: cy, r: r)
+        ctx.restoreGState()
+
+        ctx.saveGState()
+        ctx.addPath(path)
+        ctx.clip()
+        drawSpecular(ctx: ctx, cx: cx, cy: cy, r: r)
+        ctx.restoreGState()
+    }
+
+    private func makeBlobPoints(cx: CGFloat, cy: CGFloat, r: CGFloat, n: Int) -> [CGPoint] {
+        (0...n).map { i in
+            let angle = Double(i) / Double(n) * .pi * 2
+            var dist = Double(r)
+            switch state {
+            case .idle:
+                dist += sin(angle * 2.3 + t * 0.015) * Double(r) * 0.012
+                dist += sin(angle * 3.7 + t * 0.009) * Double(r) * 0.008
+            case .listening:
+                dist += sin(angle * 3 + t * 0.03) * Double(r) * 0.022
+                dist += sin(angle * 5 + t * 0.02) * Double(r) * 0.012
+                dist += volume * Double(r) * 0.04 * sin(angle * 4 + t * 0.08)
+            case .thinking:
+                dist += sin(angle * 2 + t * 0.022) * Double(r) * 0.03
+                dist += sin(angle * 4 - t * 0.016) * Double(r) * 0.02
+                dist += sin(angle * 6 + t * 0.011) * Double(r) * 0.012
+            case .talking:
+                dist += sin(angle * 3 + t * 0.06) * Double(r) * (0.03 + volume * 0.05)
+                dist += sin(angle * 5 + t * 0.05) * Double(r) * (0.02 + volume * 0.04)
+                dist += sin(angle * 7 + t * 0.08) * Double(r) * volume * 0.03
+            }
             return CGPoint(
-                x: center.x + r * cos(angle),
-                y: center.y + r * sin(angle)
+                x: cx + CGFloat(cos(angle) * dist),
+                y: cy + CGFloat(sin(angle) * dist)
             )
         }
     }
+
+    private func drawRadialGlow(ctx: CGContext, cx: CGFloat, cy: CGFloat, r: CGFloat, outerR: Double, alpha: Double) {
+        let colors = [CGColor(red: 0.847, green: 0.353, blue: 0.188, alpha: CGFloat(alpha)),
+                      CGColor(red: 0.847, green: 0.353, blue: 0.188, alpha: 0)]
+        guard let grad = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                                    colors: colors as CFArray,
+                                    locations: [0, 1]) else { return }
+        ctx.drawRadialGradient(grad,
+                               startCenter: CGPoint(x: cx, y: cy), startRadius: r * 0.5,
+                               endCenter: CGPoint(x: cx, y: cy), endRadius: CGFloat(outerR),
+                               options: [])
+    }
+
+    private func drawOrbGradient(ctx: CGContext, cx: CGFloat, cy: CGFloat, r: CGFloat) {
+        let (c0, c1, c2): (CGColor, CGColor, CGColor)
+        switch state {
+        case .idle:
+            c0 = CGColor(red: 0.961, green: 0.690, blue: 0.565, alpha: 1)
+            c1 = CGColor(red: 0.878, green: 0.439, blue: 0.231, alpha: 1)
+            c2 = CGColor(red: 0.545, green: 0.180, blue: 0.055, alpha: 1)
+        case .listening:
+            c0 = CGColor(red: 0.973, green: 0.773, blue: 0.659, alpha: 1)
+            c1 = CGColor(red: 0.910, green: 0.502, blue: 0.314, alpha: 1)
+            c2 = CGColor(red: 0.612, green: 0.227, blue: 0.082, alpha: 1)
+        case .thinking:
+            c0 = CGColor(red: 0.925, green: 0.659, blue: 0.518, alpha: 1)
+            c1 = CGColor(red: 0.784, green: 0.376, blue: 0.188, alpha: 1)
+            c2 = CGColor(red: 0.478, green: 0.141, blue: 0.031, alpha: 1)
+        case .talking:
+            let v = min(volume * 1.2, 1.0)
+            let r0 = 0.961 + v * 0.039
+            let g0 = 0.690 + v * 0.118
+            c0 = CGColor(red: r0, green: g0, blue: 0.706, alpha: 1)
+            c1 = CGColor(red: 0.910 + v * 0.09, green: 0.502 + v * 0.125, blue: 0.392, alpha: 1)
+            c2 = CGColor(red: 0.545, green: 0.180, blue: 0.055, alpha: 1)
+        }
+        let colors = [c0, c1, c2] as CFArray
+        let locs: [CGFloat] = [0, 0.45, 1]
+        guard let grad = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                                    colors: colors, locations: locs) else { return }
+        let startPt = CGPoint(x: cx - r * 0.28, y: cy - r * 0.25)
+        ctx.drawRadialGradient(grad,
+                               startCenter: startPt, startRadius: r * 0.05,
+                               endCenter: CGPoint(x: cx, y: cy), endRadius: r * 1.05,
+                               options: [])
+    }
+
+    private func drawSpecular(ctx: CGContext, cx: CGFloat, cy: CGFloat, r: CGFloat) {
+        let colors = [CGColor(red: 1, green: 0.941, blue: 0.902, alpha: 0.38),
+                      CGColor(red: 1, green: 0.863, blue: 0.784, alpha: 0.10),
+                      CGColor(red: 1, green: 0.863, blue: 0.784, alpha: 0)] as CFArray
+        guard let grad = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(),
+                                    colors: colors, locations: [0, 0.5, 1]) else { return }
+        let sc = CGPoint(x: cx - r * 0.32, y: cy - r * 0.30)
+        ctx.drawRadialGradient(grad,
+                               startCenter: sc, startRadius: 0,
+                               endCenter: sc, endRadius: r * 0.6,
+                               options: [])
+    }
 }
+
+// MARK: - NSView wrapper for SwiftUI
 
 struct OrbCanvas: NSViewRepresentable {
     let state: AgentState
@@ -417,5 +646,67 @@ struct OrbCanvas: NSViewRepresentable {
     func updateNSView(_ view: OrbView, context: Context) {
         view.state = state
         view.volume = volume
+    }
+}
+
+// MARK: - Main SamanthaOrb View
+
+struct SamanthaOrb: View {
+    @Binding var state: AgentState
+    @Binding var volume: Double
+
+    @State private var glowOpacity: Double = 0.0
+    @State private var dotOn = false
+
+    var dotTimer = Timer.publish(every: 0.8, on: .main, in: .common).autoconnect()
+
+    var body: some View {
+        ZStack {
+            Color.bgCream.ignoresSafeArea()
+
+            RadialGradient(
+                gradient: Gradient(colors: [
+                    Color.coralPrimary.opacity(state == .talking ? 0.10 : 0.04),
+                    Color.clear
+                ]),
+                center: .center,
+                startRadius: 60,
+                endRadius: 260
+            )
+            .animation(.easeInOut(duration: 0.8), value: state)
+
+            VStack(spacing: 0) {
+                Text("Jarvis")
+                    .font(.system(size: 10, weight: .regular))
+                    .kerning(3.5)
+                    .foregroundColor(Color.textSecondary.opacity(0.55))
+                    .padding(.bottom, 20)
+
+                ZStack {
+                    ArcRing(radius: 110, dashLen: 0.18, speed: 0.06, color: Color.coralPrimary.opacity(0.22), lineWidth: 1.2, state: state)
+                    ArcRing(radius: 110, dashLen: 0.10, speed: -0.04, color: Color.coralPrimary.opacity(0.14), lineWidth: 1.0, state: state)
+                    ArcRing(radius: 125, dashLen: 0.13, speed: -0.05, color: Color.coralLight.opacity(0.15), lineWidth: 0.8, state: state)
+                    ArcRing(radius: 125, dashLen: 0.07, speed: 0.035, color: Color.coralLight.opacity(0.10), lineWidth: 0.7, state: state)
+
+                    OrbCanvas(state: state, volume: volume)
+                        .frame(width: 160, height: 160)
+                }
+                .frame(width: 240, height: 240)
+
+                HStack(spacing: 3.5) {
+                    ForEach(0..<9, id: \.self) { i in
+                        WaveformBar(index: i, state: state, volume: volume)
+                    }
+                }
+                .frame(height: 32)
+                .opacity((state == .listening || state == .talking) ? 1 : 0.2)
+                .animation(.easeInOut(duration: 0.3), value: state)
+                .padding(.top, 12)
+            }
+            .padding(32)
+        }
+        .onReceive(dotTimer) { _ in
+            if state != .idle { dotOn.toggle() }
+        }
     }
 }

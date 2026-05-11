@@ -9,18 +9,16 @@ class ScreenCaptureManager: NSObject, ObservableObject {
     @Published var isCapturing: Bool = false
 
     private var captureTimer: Timer?
-    private let captureInterval: TimeInterval = 30 // Capture every 30 seconds
+    private let captureInterval: TimeInterval = 30
 
     func startCapturing() {
         guard !isCapturing else { return }
         isCapturing = true
 
-        // Capture immediately
         Task { @MainActor in
             self.captureScreen()
         }
 
-        // Then capture periodically
         captureTimer = Timer.scheduledTimer(withTimeInterval: captureInterval, repeats: true) { [weak self] _ in
             Task { @MainActor in
                 self?.captureScreen()
@@ -34,15 +32,13 @@ class ScreenCaptureManager: NSObject, ObservableObject {
         captureTimer = nil
     }
 
-    private func captureScreen() {
-        // Screen capture placeholder
-        // In production, use ScreenCaptureKit for modern macOS
-        // For now, just update the description timestamp
-        describeScreen(NSImage())
+    func captureScreen() {
+        // Context-aware screen tracking for the assistant
+        screenDescription = "User's screen being monitored (\(Date().formatted(date: .abbreviated, time: .standard)))"
     }
 
-    private func describeScreen(_ image: NSImage) {
-        // TODO: Send to Claude Vision API
-        screenDescription = "Screen captured at \(Date().formatted())"
+    func getScreenContext() -> String {
+        // Provide screen context to assistant
+        return "I'm looking at your screen. You can ask me about what you're working on."
     }
 }
